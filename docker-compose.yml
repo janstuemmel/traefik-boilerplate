@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+
+  proxy:
+    image: traefik
+    restart: always
+    # enable traefik dashboard
+    # labels:
+    #   - traefik.frontend.rule=Host:foo.bar.baz
+    #   - traefik.port=8080
+    ports: 
+      - "80:80"
+      - "443:443"
+    networks: 
+      - web
+    volumes: 
+      - ./acme:/acme
+      - ./traefik.toml:/etc/traefik/traefik.toml
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+  portainer: 
+    image: portainer/portainer
+    restart: always
+    labels: 
+      - traefik.frontend.rule=Host:bar.bar.baz
+    networks:
+      - web
+    volumes: 
+      - ./data:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+
+networks:
+  web:
+    external: true
