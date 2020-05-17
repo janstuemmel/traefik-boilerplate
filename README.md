@@ -1,4 +1,6 @@
-# Proxy for docker containers
+# Proxy for docker containers with traefik v1
+
+**Does not work with raefik v2 !**
 
 ## Install
 
